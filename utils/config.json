@@ -5,5 +5,6 @@
 	"email_to_send": "",
 	"redis_server":"",
 	"bitskins_api_key":"",
-	"bitskins_secret":""
+	"bitskins_secret":"",
+	"send_email": false
 }

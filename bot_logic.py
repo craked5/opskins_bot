@@ -48,6 +48,8 @@ class mainLogic:
         self.opskins_balance = 0
         self.item_price_history_good = {}
         self.trys_counter = 0
+        self.discount_percentage = float(config_details['discount_percentage'])
+        self.send_email_bool = config_details['send_email']
 
         try:
             item_price_history = {}
@@ -217,7 +219,7 @@ class mainLogic:
 
         print opsres.status_code
         elapsed = timeit.default_timer() - start_time
-        print 'time do request: ' + str(elapsed)
+        print 'time at the request: ' + str(elapsed)
         self.trys_counter += 1
 
         if opsres.status_code == 503:
@@ -296,22 +298,23 @@ class mainLogic:
                 message = self.structure_email_message(items_to_email)
                 if price_total <= self.opskins_balance:
                     try:
-                        self.send_email_new_item(self.FROM, self.TO, message, item_name)
+                        if self.send_email_bool:
+                            self.send_email_new_item(self.FROM, self.TO, message, item_name)
+                            print 'Sent email with the message:'
+                            print message
                     except:
                         print "tried to send email with a newly found item but failed"
 
-                    print 'Sent email with the message:'
-                    print message
                     return_list.insert(0, 1)
                     return return_list
                 else:
-                    print "the stuff i found was to expensive for ya, please make more cash u dumb fuck"
+                    print "the stuff i found was to expensive for ya, please make more money"
                     print message
                     return 0
             else:
                 print "Didn't get any new items to potencially buy!"
                 elapsed = timeit.default_timer() - start_time
-                print 'time do codigo depois do request: ' + str(elapsed) + '\n\n'
+                print 'time after the request: ' + str(elapsed) + '\n\n'
                 return 0
 
     #structures an email to be sent with the items found to be good to buy!

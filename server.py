@@ -99,6 +99,9 @@ if __name__ == '__main__':
         print 'opskins balance: ' + str(balance)
     except:
         print "cant get opskins balance"
-    if ms.start_smtp(ms.email_username, ms.email_password):
+    if ms.send_email_bool:
+        ms.start_smtp(ms.email_username, ms.email_password)
         print 'Connected to email server'
+    else:
+        print "Not going to send emails"
     socketio.run(app, host=socket.gethostbyname(socket.gethostname()), port=80)
