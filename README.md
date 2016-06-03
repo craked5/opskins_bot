@@ -9,12 +9,13 @@ First things first you need to add stuff to the config file.
 The following stuff in the config file needs to be configured:
 
 - email_username: email used to send messages with items found. (ONLY SUPPORTS GMAIL!!!!!!!!!!!!!!)
-- email_password: aboves email password
+- email_password: above email password
 - send_to_email: the email that you want to send the messages to, can be the same as the above
 - opskins_api_key: your api key for the website Opskins.com (go to account settings to get it!)
 - redis_server: the ip of the redis server you are using to store the prices (MANDATORY!)
 - bitskins_api_key: your api key for Bitskins. Only useful if you want to get the prices there.
 - bitskins_secret: your bitskins secret. see above.
+- send_email: true or false if you want to send an email after it buys something! (ONLY GMAIL!!!!!!!!!!!!!!!!!!)
 
 Now that you configured the bot, run the items_history.py script to get a list of all the suggested sell prices that will be used in the bot! (IT MAY TAKE A WHILE!!)
 
