@@ -8,5 +8,6 @@
 	"bitskins_secret":"",
 	"send_email": false,
 	"min_item_price": 1,
-	"discount_percentage": 17
+	"discount_percentage": 17,
+	"server_ip": "0.0.0.0"
 }

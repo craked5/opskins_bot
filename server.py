@@ -53,7 +53,7 @@ def background_thread():
                 ms.logger.warn("server started giving 503 na try " + str(return_temp[1]))
                 break
 
-            time.sleep(random.uniform(1,3))
+            time.sleep(random.uniform(1,2))
 
 @socketio.on('connect')
 def connect():
@@ -104,4 +104,4 @@ if __name__ == '__main__':
         print 'Connected to email server'
     else:
         print "Not going to send emails"
-    socketio.run(app, host=socket.gethostbyname(socket.gethostname()), port=80)
+    socketio.run(app, host=ms.server_ip, port=80)

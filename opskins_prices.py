@@ -22,7 +22,7 @@ date_now = datetime.datetime.now().strftime("%b %d, %Y").lstrip("0").replace(" 0
 
 def get_price_history(item):
 
-    time.sleep(1.5)
+    time.sleep(0.8)
     res = requests.get('https://opskins.com/api/price_api.php?request=GetPriceHistory&key='
                     + opskins_api_key + '&name=' + item)
     print res.url
@@ -69,6 +69,9 @@ else:
                         item_history_json[item+condition]["manual_price"] = 0
                     else:
                         print 'failed getting price history for ' + item+condition
-        with open('utils/items_history_opskins.json', 'w') as temp_file:
-            json.dump(item_history_json, temp_file)
-            temp_file.close()
+        try:
+            with open('utils/items_history_opskins.json', 'w') as temp_file:
+                json.dump(item_history_json, temp_file)
+                temp_file.close()
+        except:
+            print "Could not save all the prices to file, but they are on REDIS! who needs files anyway right?"

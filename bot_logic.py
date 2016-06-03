@@ -48,6 +48,7 @@ class mainLogic:
         self.discount_percentage = float(config_details['discount_percentage'])
         self.min_item_price = float(config_details['min_item_price'])
         self.send_email_bool = bool(config_details['send_email'])
+        self.server_ip = str(config_details['server_ip'])
 
         try:
             item_price_history = {}
