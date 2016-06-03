@@ -10,7 +10,6 @@ import time
 import cfscrape
 import redis
 import glws_conn
-import collections
 import datetime
 import timeit
 import unicodedata
@@ -18,7 +17,6 @@ import sys
 from bs4 import BeautifulSoup
 from random import choice
 from collections import OrderedDict
-
 
 class mainLogic:
 
@@ -355,7 +353,7 @@ class mainLogic:
                 temp_list = history.keys()
                 temp_list = sorted(temp_list, key=lambda x: datetime.datetime.strptime(x, '%Y-%m-%d'), reverse=True)
 
-                od = collections.OrderedDict()
+                od = OrderedDict()
                 for i in temp_list:
                     if i in history.keys():
                         od[i] = history[i]
