@@ -1,4 +1,3 @@
-import redis
 import json
 import unicodedata
 from datetime import datetime, timedelta

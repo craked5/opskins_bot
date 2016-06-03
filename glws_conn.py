@@ -1,12 +1,6 @@
 __author__ = 'nunosilva'
 
-import requests
-import ujson
 from socketIO_client import SocketIO, BaseNamespace
-import time
-import base64
-import os
-import logging
 
 globalgetData = None
 globalready = None
