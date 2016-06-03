@@ -7,7 +7,6 @@ import requests
 import re
 import logbook
 import time
-import ujson
 import cfscrape
 import redis
 import glws_conn
@@ -26,7 +25,7 @@ class mainLogic:
     def __init__(self):
 
         try:
-            config_details = ujson.load(open('utils/config.json','r'))
+            config_details = json.load(open('utils/config.json','r'))
         except:
             print "cant open the config file, check it please!"
             print "exiting now!"
@@ -337,7 +336,7 @@ class mainLogic:
     def get_opskins_balance(self):
 
         res = requests.get("https://opskins.com/api/user_api.php?request=GetOP&key="+self.opskins_api_key)
-        balance_temp = ujson.loads(res.content)
+        balance_temp = json.loads(res.content)
         self.opskins_balance = float(balance_temp['result']['op']) / 100
         print "opskins balance: " + str(self.opskins_balance)
         return self.opskins_balance

@@ -1,4 +1,4 @@
-import ujson
+import json
 import time
 import requests
 import cfscrape
@@ -8,7 +8,7 @@ import redis
 import sys
 
 try:
-    config_details = ujson.load(open('utils/config.json','r'))
+    config_details = json.load(open('utils/config.json','r'))
 except:
     print "cant open the config file, check it please!"
     print "exiting now!"
@@ -27,7 +27,7 @@ def get_price_history(item):
                     + opskins_api_key + '&name=' + item)
     print res.url
     print res.content
-    item_info_temp = ujson.loads(res.content)
+    item_info_temp = json.loads(res.content)
 
     if 'result' in item_info_temp:
         print "Could not get item: " + item
@@ -38,7 +38,7 @@ def get_price_history(item):
 
 item_temp = raw_input('What item(s) do you want to check? ("all" for all items on file) ')
 json_history_file = open('utils/items_history_opskins.json', 'r')
-item_history_json = ujson.load(json_history_file)
+item_history_json = json.load(json_history_file)
 json_history_file.close()
 
 if item_temp != 'all':
@@ -46,7 +46,7 @@ if item_temp != 'all':
     print r.set(item_temp, item_history)
     item_history_json[item_temp] = item_history
     with open('utils/items_history_opskins.json', 'w') as temp_file:
-        ujson.dump(item_history_json, temp_file)
+        json.dump(item_history_json, temp_file)
         temp_file.close()
 else:
     with open('utils/csgoitems.txt', 'r') as item_file:
@@ -70,5 +70,5 @@ else:
                     else:
                         print 'failed getting price history for ' + item+condition
         with open('utils/items_history_opskins.json', 'w') as temp_file:
-            ujson.dump(item_history_json, temp_file)
+            json.dump(item_history_json, temp_file)
             temp_file.close()

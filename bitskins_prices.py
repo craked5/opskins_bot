@@ -1,11 +1,11 @@
 import redis
-import ujson
+import json
 import sys
 import onetimepass
 import requests
 
 try:
-    config_details = ujson.load(open('utils/config.json', 'r'))
+    config_details = json.load(open('utils/config.json', 'r'))
 except:
     print "cant open the config file, check it please!"
     print "exiting now!"
@@ -24,7 +24,7 @@ def get_price_history(item, my_token):
     res = requests.get("https://bitskins.com/api/v1/get_price_data_for_items_on_sale/?api_key="+api
                          +"&code="+str(my_token)+"&names="+item)
     print res.url
-    item_info_temp = ujson.loads(res.content)
+    item_info_temp = json.loads(res.content)
 
     if item_info_temp["data"]["items"][0]["total_items"] == 0:
         print "Could not get item: " + item
