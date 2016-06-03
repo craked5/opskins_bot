@@ -53,7 +53,7 @@ def background_thread():
                 ms.logger.warn("server started giving 503 na try " + str(return_temp[1]))
                 break
 
-            time.sleep(random.uniform(1,2))
+            #time.sleep(random.uniform(1,2))
 
 @socketio.on('connect')
 def connect():
