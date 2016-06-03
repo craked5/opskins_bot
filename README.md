@@ -16,6 +16,8 @@ The following stuff in the config file needs to be configured:
 - bitskins_api_key: your api key for Bitskins. Only useful if you want to get the prices there.
 - bitskins_secret: your bitskins secret. see above.
 - send_email: true or false if you want to send an email after it buys something! (ONLY GMAIL!!!!!!!!!!!!!!!!!!)
+- discount_percentage: the percentage of discount that the item has to have in order to be bought! Ex: 30 or 24.5
+- min_item_price: minimum price that the item has to have in order to be bought! Ex: 3 or 5.67
 
 Now that you configured the bot, run the items_history.py script to get a list of all the suggested sell prices that will be used in the bot! (IT MAY TAKE A WHILE!!)
 

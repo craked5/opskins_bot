@@ -49,7 +49,8 @@ class mainLogic:
         self.item_price_history_good = {}
         self.trys_counter = 0
         self.discount_percentage = float(config_details['discount_percentage'])
-        self.send_email_bool = config_details['send_email']
+        self.min_item_price = float(config_details['min_item_price'])
+        self.send_email_bool = bool(config_details['send_email'])
 
         try:
             item_price_history = {}
@@ -274,13 +275,13 @@ class mainLogic:
                         print 'price:',price, ' sug price:', suggested_price_json, ' --> ' + str(suggested_price_json - price >= (0.15*suggested_price_json))
                         if json_good:
                             #if this item has a manual price enabled ill go down this path
-                            if suggested_price_json - price >= (0.15*suggested_price_json) and (price >= 13 and price <= 30):
+                            if suggested_price_json - price >= (self.discount_percentage*suggested_price_json) and (price >= self.min_item_price and price <= 30):
                                 items_to_email[item_name] = {'Suggested_price':suggested_price_json,
                                                             'Price': price,'Item_url': item_url, 'Opskins_id': item_OpId}
                                 return_list.append(item_OpId)
                                 price_total += price
 
-                            elif suggested_price_json - price >= (0.16*suggested_price_json) and price > 30:
+                            elif suggested_price_json - price >= (self.discount_percentage*suggested_price_json) and price > 30:
                                 items_to_email[item_name] = {'Suggested_price':suggested_price_json,
                                                             'Price': price,'Item_url': item_url, 'Opskins_id': item_OpId}
                                 return_list.append(item_OpId)

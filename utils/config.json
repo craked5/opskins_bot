@@ -6,5 +6,7 @@
 	"redis_server":"",
 	"bitskins_api_key":"",
 	"bitskins_secret":"",
-	"send_email": false
+	"send_email": false,
+	"min_item_price": 1,
+	"discount_percentage": 17
 }
