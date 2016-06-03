@@ -8,7 +8,7 @@ if async_mode == 'gevent':
 
 from flask import Flask
 from flask_socketio import SocketIO
-from mainlogic import mainLogic
+from bot_logic import mainLogic
 import time
 from threading import Thread
 import random
