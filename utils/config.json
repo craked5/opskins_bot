@@ -1,0 +1,9 @@
+{
+	"email_username": "",
+	"email_password": "",
+	"opskins_api_key": "",
+	"email_to_send": "",
+	"redis_server":"",
+	"bitskins_api_key":"",
+	"bitskins_secret":""
+}
