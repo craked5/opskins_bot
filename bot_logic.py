@@ -49,10 +49,11 @@ class mainLogic:
         self.min_item_price = float(config_details['min_item_price'])
         self.send_email_bool = bool(config_details['send_email'])
         self.server_ip = str(config_details['server_ip'])
-        self.using_redis = str(config_details['storage_method'])
+        self.using_redis = str(config_details['using_redis'])
 
 
         if self.using_redis:
+            print "USING REDIS AS STORAGE!"
             try:
                 item_price_history = {}
                 for key in self.redis_client.scan_iter():
@@ -65,6 +66,7 @@ class mainLogic:
             except:
                 print "Problem opening something in the db!"
         else:
+            print "USING FILE AS STORAGE!"
             try:
                 temp_file = open('utils/items_history_opskins.json', 'r')
                 item_price_history = json.load(temp_file)
