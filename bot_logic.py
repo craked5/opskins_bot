@@ -29,14 +29,13 @@ class mainLogic:
             print "exiting now!"
             sys.exit()
         self.redis_client = redis.StrictRedis(host=config_details["redis_server"], port=6379)
-        self.recent_list = ["https://opskins.com/ajax/browse_scroll.php?page=1&appId=730"]
         self.logger = logbook.Logger(time.strftime("%d/%m/%Y %H:%M:%S") + ' Opskins logger')
         log = logbook.FileHandler('utils/loggingfile.txt')
         log.push_application()
         self.email_number = 0
         self.last_opsid_from_site = []
         self.scraper = cfscrape.create_scraper()
-        self.opskins_recent_url = 'https://opskins.com/?loc=shop_browse&app=730_2'
+        self.opskins_recent_url = "https://opskins.com/ajax/browse_scroll.php?page=1&appId=730&contextId=2"
         self.opskins_balance = 0
         self.item_price_history_sorted = {}
         self.trys_counter = 0
@@ -50,7 +49,15 @@ class mainLogic:
         self.send_email_bool = bool(config_details['send_email'])
         self.server_ip = str(config_details['server_ip'])
         self.using_redis = str(config_details['using_redis'])
-
+        self.opskins_headers = {
+            "accept": "application/json",
+            "Accept-Encoding": "gzip,deflate",
+            "Accept-Language": "pt-PT,pt;,q = 0.8,en-US;q=0.6,en;q=0.4,fr;q=0.2,es;q=0.2",
+            "Cache-Control": "no-cache",
+            "DNT": "1",
+            "Pragma": "no-cache",
+            "User-Agent": "Mozilla / 5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/49.0.2623.110 Safari/537.36"
+        }
 
         if self.using_redis:
             print "USING REDIS AS STORAGE!"
@@ -216,8 +223,7 @@ class mainLogic:
     #If this returns 0 its because the current items on the website are equal to the item_list
     #If this returns 1 its because the current items on the website are updated and we must check for new prices
     def check_recent_opskins(self):
-        
-        #self.scraper = cfscrape.create_scraper()
+
         #items that pass the price formula
         return_list = []
         items_to_email = {}
@@ -225,7 +231,7 @@ class mainLogic:
         start_time = timeit.default_timer()
 
         try:
-            opsres = requests.get(choice(self.recent_list), timeout=15)
+            opsres = requests.get(self.opskins_recent_url, timeout=15, headers=self.opskins_headers)
         except requests.exceptions.Timeout:
             time.sleep(200)
             print "TIMEOUT EXCEPTION TRIGGERED"
@@ -250,10 +256,8 @@ class mainLogic:
         
         start_time = timeit.default_timer()
         if opsres.status_code is 200:
-
             soup = BeautifulSoup(opsres.content,'lxml')
             items_bad = soup.find_all('div', {'class':'featured-item col-xs-12 col-sm-6 col-md-4 col-lg-3 center-block app_730_2'})
-
             if len(items_bad) == 0:
                 print "For some reason i cound't scrape any items, maybe opskins is down.... "
                 return -2
