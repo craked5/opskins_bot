@@ -33,34 +33,47 @@ class mainLogic:
         self.logger = logbook.Logger(time.strftime("%d/%m/%Y %H:%M:%S") + ' Opskins logger')
         log = logbook.FileHandler('utils/loggingfile.txt')
         log.push_application()
-        self.opskins_api_key = unicodedata.normalize('NFKD', config_details["opskins_api_key"]).encode('ascii','ignore')
         self.email_number = 0
         self.last_opsid_from_site = []
         self.scraper = cfscrape.create_scraper()
         self.opskins_recent_url = 'https://opskins.com/?loc=shop_browse&app=730_2'
+        self.opskins_balance = 0
+        self.item_price_history_sorted = {}
+        self.trys_counter = 0
+        self.opskins_api_key = unicodedata.normalize('NFKD', config_details["opskins_api_key"]).encode('ascii','ignore')
         self.email_username = config_details['email_username']
         self.email_password = config_details['email_password']
         self.FROM = config_details['email_username']
         self.TO = config_details['email_to_send']
-        self.opskins_balance = 0
-        self.item_price_history_good = {}
-        self.trys_counter = 0
         self.discount_percentage = float(config_details['discount_percentage'])
         self.min_item_price = float(config_details['min_item_price'])
         self.send_email_bool = bool(config_details['send_email'])
         self.server_ip = str(config_details['server_ip'])
+        self.using_redis = str(config_details['storage_method'])
 
-        try:
-            item_price_history = {}
-            for key in self.redis_client.scan_iter():
-                key_good = key.decode("utf-8")
-                item_price_history[key_good] = self.redis_client.get(key.decode("utf-8"))
-            print len(item_price_history)
-            if self.sort_prices(item_price_history):
-                print "sorted item price dict good"
-            print "Opened items price history with success!"
-        except:
-            print "Problem opening something in the db!"
+
+        if self.using_redis:
+            try:
+                item_price_history = {}
+                for key in self.redis_client.scan_iter():
+                    key_good = key.decode("utf-8")
+                    item_price_history[key_good] = self.redis_client.get(key.decode("utf-8"))
+                print len(item_price_history)
+                if self.sort_prices(item_price_history):
+                    print "sorted item price dict good"
+                print "Opened items price history with success!"
+            except:
+                print "Problem opening something in the db!"
+        else:
+            try:
+                temp_file = open('utils/items_history_opskins.json', 'r')
+                item_price_history = json.load(temp_file)
+                temp_file.close()
+                if self.sort_prices(item_price_history):
+                    print "sorted item price dict good"
+                print "Opened items price history with success!"
+            except:
+                print "Problem opening the items price history file, maybe it does not exist, try doing doing the command gethistory"
 
     def start_smtp(self, email_username, email_password):
 
@@ -257,10 +270,10 @@ class mainLogic:
                 #tenho que fazer decode('utf-8') do item_name_no_condition para verificar se este existe no dict da historia dos items
 
                 if item_OpId not in self.last_opsid_from_site:
-                    if item_name.decode('utf-8') in self.item_price_history_good:
+                    if item_name.decode('utf-8') in self.item_price_history_sorted:
                         try:
                             try:
-                                suggested_price_json = float(self.item_price_history_good[item_name.decode('utf-8')]['price']) / 100
+                                suggested_price_json = float(self.item_price_history_sorted[item_name.decode('utf-8')]['price']) / 100
                                 json_good = True
                             except:
                                 print "cant get price from json ABORT ABORT"
@@ -286,7 +299,7 @@ class mainLogic:
                                 price_total += price
 
                         else:
-                            print self.item_price_history_good[item_name.decode('utf-8')]
+                            print self.item_price_history_sorted[item_name.decode('utf-8')]
                             print "not json good"
 
                 list_ids_temp.append(item_OpId)
@@ -344,13 +357,13 @@ class mainLogic:
     #the final result is hopefully a suggested price really accurate
     #if the item has a manual price, it gets it
     #else it gets the suggested price based on the last two days price history.
-    def sort_prices(self, dict):
+    def sort_prices(self, item_prices):
         count2 = 0
         temp_list2 = []
-        for key_item in dict:
-            if 'history' in dict[key_item]:
-                dict[key_item] = eval(dict[key_item])
-                history = dict[key_item]['history']
+        for key_item in item_prices:
+            if 'history' in item_prices[key_item]:
+                item_prices[key_item] = eval(item_prices[key_item])
+                history = item_prices[key_item]['history']
                 temp_list = history.keys()
                 temp_list = sorted(temp_list, key=lambda x: datetime.datetime.strptime(x, '%Y-%m-%d'), reverse=True)
 
@@ -358,32 +371,31 @@ class mainLogic:
                 for i in temp_list:
                     if i in history.keys():
                         od[i] = history[i]
-                dict[key_item]['history'] = od
+                item_prices[key_item]['history'] = od
 
                 counter =0
                 temp_price = 0
                 temp_count = 0
-                for dates in dict[key_item]['history']:
+                for dates in item_prices[key_item]['history']:
                     if counter < 1:
-                        temp_price += float(dict[key_item]['history'][dates]['price'])
-                        temp_count += dict[key_item]['history'][dates]['count']
+                        temp_price += float(item_prices[key_item]['history'][dates]['price'])
+                        temp_count += item_prices[key_item]['history'][dates]['count']
                         counter += 1
                 if temp_count >= 6:
-                    dict[key_item]['price'] = str(int(temp_price))
+                    item_prices[key_item]['price'] = str(int(temp_price))
                 else:
-                    if "price" in dict[key_item]:
+                    if "price" in item_prices[key_item]:
                         pass
                     else:
                         temp_list2.append(key_item)
-                dict[key_item]["manual_price_bool"] = 0
+                item_prices[key_item]["manual_price_bool"] = 0
 
         for item_temp in temp_list2:
             print "gone"
-            dict.pop(item_temp)
+            item_prices.pop(item_temp)
 
-        print 'items a usar manual_price: ' + str(count2)
-        self.item_price_history_good = dict
-        print len(self.item_price_history_good)
+        self.item_price_history_sorted = item_prices
+        print len(self.item_price_history_sorted)
         return True
 
 

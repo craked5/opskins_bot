@@ -54,24 +54,37 @@ else:
         for item in file_items_name:
             if "Case Key" in item:
                 item_history = get_price_history(item)
+
                 if item_history != False:
-                    print r.set(item, item_history)
-                    item_history_json[item] = item_history
-                    item_history_json[item]["manual_price"] = 0
+                    if config_details["using_redis"]:
+                        print "Saved the item " + str(item) + " to redis db: " + str(
+                            r.set(item, item_history))
+                    # saving to file if using_redis is False
+                    else:
+                        item_history_json[item] = item_history
+                        item_history_json[item]["manual_price"] = 0
+                        with open('utils/items_history_opskins.json', 'w') as temp_file:
+                            json.dump(item_history_json, temp_file)
+                            print "Saved the item " + str(item) + " to file!"
+                            temp_file.close()
                 else:
                     print 'failed getting price history for ' + item
+
             else:
                 for condition in condition_list:
                     item_history = get_price_history(item+condition)
                     if item_history != False:
-                        print r.set(item+condition, item_history)
-                        item_history_json[item+condition] = item_history
-                        item_history_json[item+condition]["manual_price"] = 0
+
+                        if config_details["using_redis"]:
+                            print "Saved the item "+ str(item+condition) + " to redis db: " + \
+                                  str(r.set(item, item_history))
+                        #saving to file if using_redis is False
+                        else:
+                            item_history_json[item+condition] = item_history
+                            item_history_json[item+condition]["manual_price"] = 0
+                            with open('utils/items_history_opskins.json', 'w') as temp_file:
+                                json.dump(item_history_json, temp_file)
+                                print "Saved the item " + str(item + condition) + " to file!"
+                                temp_file.close()
                     else:
                         print 'failed getting price history for ' + item+condition
-        try:
-            with open('utils/items_history_opskins.json', 'w') as temp_file:
-                json.dump(item_history_json, temp_file)
-                temp_file.close()
-        except:
-            print "Could not save all the prices to file, but they are on REDIS! who needs files anyway right?"

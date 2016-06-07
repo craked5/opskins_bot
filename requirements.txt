@@ -1,9 +1,11 @@
+bs4
+logbook
+redis
 ujson
 lxml
 Flask
 Flask-SocketIO
 PyExecJS
-beautifulsoup4
 gevent
 gevent-websocket
 greenlet

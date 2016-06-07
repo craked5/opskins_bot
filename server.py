@@ -12,7 +12,6 @@ from bot_logic import mainLogic
 import time
 from threading import Thread
 import random
-import socket
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret!'
