@@ -288,7 +288,7 @@ class mainLogic:
                             print item.find('span',{'class':'market-name'}).text
                             print item.find('div',{'class':'item-amount'}).text
                             return -1
-                        print 'Item: ', item_name + 'price:',price, ' sug price:', suggested_price_json, ' --> ' + str(suggested_price_json - price >= (0.15*suggested_price_json))
+                        print 'Item:', item_name + ' | price:',price, ' sug price:', suggested_price_json, ' --> ' + str(suggested_price_json - price >= (0.15*suggested_price_json))
                         if json_good:
                             #if this item has a manual price enabled ill go down this path
                             if suggested_price_json - price >= (self.discount_percentage*suggested_price_json) and (price >= self.min_item_price and price <= 30):
