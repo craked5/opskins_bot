@@ -262,7 +262,6 @@ class mainLogic:
                 return -2
 
             list_ids_temp = []
-            list_item_names = []
 
             for item in items_bad:
 
@@ -289,7 +288,7 @@ class mainLogic:
                             print item.find('span',{'class':'market-name'}).text
                             print item.find('div',{'class':'item-amount'}).text
                             return -1
-                        print 'price:',price, ' sug price:', suggested_price_json, ' --> ' + str(suggested_price_json - price >= (0.15*suggested_price_json))
+                        print 'Item: ', item_name + 'price:',price, ' sug price:', suggested_price_json, ' --> ' + str(suggested_price_json - price >= (0.15*suggested_price_json))
                         if json_good:
                             #if this item has a manual price enabled ill go down this path
                             if suggested_price_json - price >= (self.discount_percentage*suggested_price_json) and (price >= self.min_item_price and price <= 30):
@@ -309,12 +308,8 @@ class mainLogic:
                             print "not json good"
 
                 list_ids_temp.append(item_OpId)
-                list_item_names.append(item_name)
 
             self.last_opsid_from_site = list_ids_temp
-
-            for item in list_item_names:
-                print item
 
             if items_to_email:
                 message = self.structure_email_message(items_to_email)
