@@ -15,7 +15,6 @@ import timeit
 import unicodedata
 import sys
 from bs4 import BeautifulSoup
-from random import choice
 from collections import OrderedDict
 
 class mainLogic:
@@ -48,7 +47,7 @@ class mainLogic:
         self.min_item_price = float(config_details['min_item_price'])
         self.send_email_bool = bool(config_details['send_email'])
         self.server_ip = str(config_details['server_ip'])
-        self.using_redis = str(config_details['using_redis'])
+        self.using_redis = bool(config_details['using_redis'])
         self.opskins_headers = {
             "accept": "application/json",
             "Accept-Encoding": "gzip,deflate",
@@ -263,6 +262,7 @@ class mainLogic:
                 return -2
 
             list_ids_temp = []
+            list_item_names = []
 
             for item in items_bad:
 
@@ -309,8 +309,12 @@ class mainLogic:
                             print "not json good"
 
                 list_ids_temp.append(item_OpId)
+                list_item_names.append(item_name)
 
             self.last_opsid_from_site = list_ids_temp
+
+            for item in list_item_names:
+                print item
 
             if items_to_email:
                 message = self.structure_email_message(items_to_email)
