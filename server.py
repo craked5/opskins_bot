@@ -71,7 +71,6 @@ def start_thread():
         thread = Thread(target=background_thread)
         thread.daemon = False
         thread.start()
-        socketio.emit("started", str({"started": "the process has started!"}))
 
 @socketio.on('connect')
 def connect():
@@ -115,8 +114,8 @@ def stop_bot(data):
     global thread_exited
     exit_signal = True
 
-    while thread_exited is not True:
-        pass
+    while thread_exited is False:
+        print "NOT STOPPED YET!"
     print "BOT IS NOW STOPPED!"
     socketio.emit("bot_stopped", str({"status":"bot is stopped"}))
 
