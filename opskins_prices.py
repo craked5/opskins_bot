@@ -77,7 +77,7 @@ else:
 
                         if config_details["using_redis"]:
                             print "Saved the item "+ str(item+condition) + " to redis db: " + \
-                                  str(r.set(item, item_history))
+                                  str(r.set(item+condition, item_history))
                         #saving to file if using_redis is False
                         else:
                             item_history_json[item+condition] = item_history
