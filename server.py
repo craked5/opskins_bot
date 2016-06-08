@@ -96,7 +96,7 @@ def disconnect():
         print "WAITING FOR THE CHECK RECENT THREAD TO STOP!"
         pass
 
-    socketio.emit("bot_stopped", str("BOT IS NOT STOPPED!"))
+    socketio.emit("bot_stopped", str({'stopped':"The bot was stopped successfully"}))
     print('disconnected from client!')
 
 @socketio.on('start_bot')
@@ -104,9 +104,9 @@ def start_bot(data):
     print data
     start_thread()
     if thread is not None:
-        socketio.emit("bot_started")
+        socketio.emit("bot_started", str({'started':"The bot was started successfully"}))
     else:
-        socketio.emit("bot_started_false")
+        socketio.emit("bot_started_false", str({'started':"The bot was not started successfully"}))
 
 @socketio.on('stop_bot')
 def stop_bot(data):
@@ -120,7 +120,7 @@ def stop_bot(data):
         print "WAITING FOR THE CHECK RECENT THREAD TO STOP!"
 
     print "BOT IS NOW STOPPED!"
-    socketio.emit("bot_stopped", str("BOT IS NOW STOPPED!"))
+    socketio.emit("bot_stopped", str({'stopped':"The bot was stopped successfully"}))
 
 
 if __name__ == '__main__':
