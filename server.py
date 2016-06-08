@@ -99,10 +99,27 @@ def disconnect():
 
     print('disconnected from client!')
 
-@socketio.on('start')
-def start(data):
+@socketio.on('start_bot')
+def start_bot(data):
     print data
     start_thread()
+    if thread is not None:
+        socketio.emit("bot_started", str({"bot_status":"the bot has started!"}))
+    else:
+        socketio.emit("bot_started", str({"bot_status":"could not start the bot"}))
+
+@socketio.on('stop_bot')
+def stop_bot(data):
+    print "STOPING BOT NOW!"
+    global exit_signal
+    global thread_exited
+    exit_signal = True
+
+    while thread_exited is not True:
+        pass
+    print "BOT IS NOW STOPPED!"
+    socketio.emit("bot_stopped", str({"status":"bot is stopped"}))
+
 
 if __name__ == '__main__':
     ms = mainLogic()
