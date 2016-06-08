@@ -18,20 +18,18 @@ app.config['SECRET_KEY'] = 'secret!'
 socketio = SocketIO(app, engineio_logger = True, allow_upgrades = True, async_mode=async_mode, ping_timeout = 80000, ping_interval=15)
 thread = None
 exit_signal = False
-thread_exited = False
+process_ended = False
 
 def background_thread():
     global exit_signal
 
     while True:
-        print 'principio da thread'
+        print 'Beggining of the check recent items process!'
         print 'exit signal: ' + str(exit_signal)
         if exit_signal == True:
-            global thread_exited
-            thread_exited = True
-            print "thread exiting"
+            print "Check recent process ending"
             return 0
-        print 'comecou o processo de verificacao dos items recentes'
+        print 'The process has begun!'
         return_temp = ms.check_recent_opskins()
         if type(return_temp) == type([]):
             return_temp.pop(0)
@@ -41,6 +39,7 @@ def background_thread():
             msg = msg[:-1]
             print msg
             socketio.emit('buy_list', str(msg))
+            return True
         else:
             if return_temp == 0:
                 ms.logger.info("Didn't get anything or the items didnt change, continuing....")
@@ -56,21 +55,7 @@ def background_thread():
 
 @socketio.on('connect')
 def connect():
-    global exit_signal
-    global thread_exited
-    global thread
-    
-    if exit_signal is True:
-        exit_signal = False
-        thread_exited = False
-        thread = None
-        
-    if thread is None:
-        thread = Thread(target=background_thread)
-        thread.daemon = True
-        thread.start()
-        
-    print "connected"
+    print "client has connected to the server!"
 
 @socketio.on('ready')
 def readybuy(data):
@@ -82,14 +67,22 @@ def readybuy(data):
 @socketio.on('disconnect')
 def disconnect():
     global exit_signal
-    global thread_exited
+    global process_ended
     exit_signal = True
-    while thread_exited is False:
-        print thread_exited
+    while process_ended is False:
+        print process_ended
         time.sleep(1)
-        print "estou a espera que a thread saia"
+        print "WAITING FOR THE RECENT CHECKING PROCESS TO END"
         pass
     print('disconnected from client!')
+
+@socketio.on('start')
+def start():
+    background_thread()
+    socketio.emit('started', str({"started":"the bot has started"}))
+
+
+
 
 if __name__ == '__main__':
     ms = mainLogic()
