@@ -78,7 +78,7 @@ def connect():
 
 @socketio.on('ready')
 def readybuy(data):
-    print "the client sent a ready signal so im starting a new search"
+    print "the client sent a ready signal so im starting the bot again!"
     print data
     time.sleep(4)
     ms.get_opskins_balance()
@@ -104,9 +104,9 @@ def start_bot(data):
     print data
     start_thread()
     if thread is not None:
-        socketio.emit("bot_started", str("BOT HAS STARTED"))
+        socketio.emit("bot_started")
     else:
-        socketio.emit("bot_started", str("COULD NOT START BOT!"))
+        socketio.emit("bot_started_false")
 
 @socketio.on('stop_bot')
 def stop_bot(data):
