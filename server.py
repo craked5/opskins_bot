@@ -135,4 +135,4 @@ if __name__ == '__main__':
         print 'Connected to email server'
     else:
         print "Not going to send emails"
-    socketio.run(app, host=ms.server_ip, port=80)
+    socketio.run(app, debug=False, host=ms.server_ip, port=80)
