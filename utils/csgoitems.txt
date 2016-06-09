@@ -61,11 +61,17 @@ Desert Eagle | Golden Koi
 M4A1-S | Bright Water
 P90 | Emerald Dragon
 USP-S | Overgrowth
+P250 | Asiimov
 AK-47 | Black Laminate	
 Five-SeveN | Candy Apple	
 Glock-18 | Fade
 M4A4 | Howl
+Nova | Hyper Beast
+AWP | Elite Build
 Glock-18 | Twilight Galaxy
+Desert Eagle | Kumicho Dragon
+M4A4 | The Battlestar
+FAMAS | Valence
 M4A1-S | Hot Rod
 MAC-10 | Fade
 AK-47 | Hydroponic
@@ -76,13 +82,15 @@ Galil AR | Eco
 M4A4 | Daybreak
 AWP | Medusa	
 AWP | Sun in Leo
+M4A1-S | Chantico's Fire
 AK-47 | Wasteland Rebel
 AK-47 | Cartel
 AWP | Lightning Strike
 M4A1-S | Icarus Fell
 M4A4 | Poseidon
 UMP-45 | Blaze
-AK-47 | Aquamarine Revenge	
+AK-47 | Aquamarine Revenge
+AUG | Fleet Flock	
 AWP | Hyper Beast	
 MP7 | Nemesis
 M4A1-S | Hyper Beast
@@ -99,6 +107,7 @@ Shadow Case Key
 Chroma 2 Case Key
 Chroma 3 Case Key
 CS:GO Case Key
+AK-47 | Fuel Injector
 ★ Bayonet | Marble Fade
 ★ Bayonet | Tiger Tooth
 ★ Bayonet | Crimson Web
@@ -141,6 +150,7 @@ StatTrak™ AWP | BOOM
 StatTrak™ AWP | Graphite
 StatTrak™ AWP | Redline
 StatTrak™ AK-47 | Redline
+StatTrak™ AUG | Fleet Flock
 StatTrak™ Desert Eagle | Golden Koi	
 StatTrak™ Desert Eagle | Blaze		
 StatTrak™ AK-47 | Frontside Misty
@@ -148,14 +158,20 @@ StatTrak™ M4A1-S | Golden Coil
 StatTrak™ USP-S | Kill Confirmed
 StatTrak™ SSG 08 | Blood in the Water
 StatTrak™ AK-47 | Jaguar
+StatTrak™ P250 | Asiimov
 StatTrak™ AWP | Corticera
+StatTrak™ M4A1-S | Chantico's Fire
 StatTrak™ Desert Eagle | Crimson Web
 StatTrak™ M4A4 | Bullet Rain
 StatTrak™ P2000 | Corticera
+StatTrak™ AK-47 | Fuel Injector
 StatTrak™ AK-47 | Blue Laminate
 StatTrak™ AWP | Electric Hive
+PP-Bizon | Judgement of Anubis
 StatTrak™ Desert Eagle | Cobalt Disruption
 StatTrak™ FAMAS | Afterimage
+StatTrak™ M4A4 | The Battlestar
+StatTrak™ FAMAS | Valence
 StatTrak™ P90 | Death by Kitty			
 StatTrak™ AK-47 | Fire Serpent	
 StatTrak™ Desert Eagle | Golden Koi	
@@ -166,6 +182,9 @@ StatTrak™ M4A4 | Howl
 StatTrak™ Galil AR | Eco
 StatTrak™ AK-47 | Wasteland Rebel
 StatTrak™ AK-47 | Cartel
+StatTrak™ Desert Eagle | Kumicho Dragon
+StatTrak™ AWP | Elite Build
+StatTrak™ Nova | Hyper Beast
 StatTrak™ AWP | Lightning Strike
 StatTrak™ AK-47 | Aquamarine Revenge	
 StatTrak™ AWP | Hyper Beast	
