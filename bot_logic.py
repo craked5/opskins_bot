@@ -355,7 +355,6 @@ class mainLogic:
         res = requests.get("https://opskins.com/api/user_api.php?request=GetOP&key="+self.opskins_api_key)
         balance_temp = json.loads(res.content)
         self.opskins_balance = float(balance_temp['result']['op']) / 100
-        print "opskins balance: " + str(self.opskins_balance)
         return self.opskins_balance
 
     #reads the json file with all the items history info and sorts it by date.

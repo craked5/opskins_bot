@@ -23,7 +23,6 @@ thread_exited = False
 def background_thread():
     global exit_signal
     global thread_exited
-
     print "THREAD HAS BEEN INICIATED!"
 
     while True:
@@ -122,6 +121,10 @@ def stop_bot(data):
     print "BOT IS NOW STOPPED!"
     socketio.emit("bot_stopped", str({'stopped':"The bot was stopped successfully"}))
 
+@socketio.on('opskins_balance')
+def opskins_balance(data):
+    print data
+    socketio.emit("opskins_balance", str(ms.get_opskins_balance()))
 
 if __name__ == '__main__':
     ms = mainLogic()
