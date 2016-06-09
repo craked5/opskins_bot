@@ -21,6 +21,18 @@ thread = None
 exit_signal = False
 thread_exited = False
 
+ms = mainLogic()
+try:
+    balance = ms.get_opskins_balance()
+    print 'opskins balance: ' + str(balance)
+except:
+    print "cant get opskins balance"
+if ms.send_email_bool:
+    ms.start_smtp(ms.email_username, ms.email_password)
+    print 'Connected to email server'
+else:
+    print "Not going to send emails"
+
 def background_thread():
     global exit_signal
     global thread_exited
@@ -128,15 +140,4 @@ def opskins_balance(data):
     socketio.emit("opskins_balance", str(ms.get_opskins_balance()))
 
 if __name__ == '__main__':
-    ms = mainLogic()
-    try:
-        balance = ms.get_opskins_balance()
-        print 'opskins balance: ' + str(balance)
-    except:
-        print "cant get opskins balance"
-    if ms.send_email_bool:
-        ms.start_smtp(ms.email_username, ms.email_password)
-        print 'Connected to email server'
-    else:
-        print "Not going to send emails"
     socketio.run(app)
