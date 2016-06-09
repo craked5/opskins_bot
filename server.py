@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-async_mode = "gevent"
+#async_mode = "gevent"
 
-if async_mode == 'gevent':
-    from gevent import monkey
-    monkey.patch_all()
+#if async_mode == 'gevent':
+    #from gevent import monkey
+    #.patch_all()
 
 from flask import Flask
 from flask_socketio import SocketIO
@@ -15,7 +15,8 @@ import random
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret!'
-socketio = SocketIO(app, engineio_logger = True, allow_upgrades = True, async_mode=async_mode, ping_timeout = 80000, ping_interval=15)
+app.config['PRESERVE_CONTEXT_ON_EXCEPTION'] = False
+socketio = SocketIO(app, engineio_logger = True, allow_upgrades = True, ping_timeout = 80000, ping_interval=15)
 thread = None
 exit_signal = False
 thread_exited = False
@@ -138,4 +139,4 @@ if __name__ == '__main__':
         print 'Connected to email server'
     else:
         print "Not going to send emails"
-    socketio.run(app, debug=False, host=ms.server_ip, port=80)
+    socketio.run(app)
