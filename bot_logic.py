@@ -70,7 +70,7 @@ class mainLogic:
                     print "sorted item price dict good"
                 print "Opened items price history with success!"
             except:
-                print "Problem opening something in the db!"
+                print "Problem opening the redis db!!"
         else:
             print "USING FILE AS STORAGE!"
             try:

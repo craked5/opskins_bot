@@ -1,10 +1,9 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
-#async_mode = "gevent"
-
-#if async_mode == 'gevent':
-    #from gevent import monkey
-    #.patch_all()
+#-*- coding: utf-8 -*-
+async_mode = "gevent"
+if async_mode == 'gevent':
+    from gevent import monkey
+    monkey.patch_all()
 
 from flask import Flask
 from flask_socketio import SocketIO
@@ -16,22 +15,11 @@ import random
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret!'
 app.config['PRESERVE_CONTEXT_ON_EXCEPTION'] = False
-socketio = SocketIO(app, engineio_logger = True, allow_upgrades = True, ping_timeout = 80000, ping_interval=15)
+socketio = SocketIO(app, engineio_logger = True, async_mode=async_mode,
+                    allow_upgrades = True, ping_timeout = 80000, ping_interval=15)
 thread = None
 exit_signal = False
 thread_exited = False
-
-ms = mainLogic()
-try:
-    balance = ms.get_opskins_balance()
-    print 'opskins balance: ' + str(balance)
-except:
-    print "cant get opskins balance"
-if ms.send_email_bool:
-    ms.start_smtp(ms.email_username, ms.email_password)
-    print 'Connected to email server'
-else:
-    print "Not going to send emails"
 
 def background_thread():
     global exit_signal
@@ -140,4 +128,15 @@ def opskins_balance(data):
     socketio.emit("opskins_balance", str(ms.get_opskins_balance()))
 
 if __name__ == '__main__':
-    socketio.run(app)
+    ms = mainLogic()
+    try:
+        balance = ms.get_opskins_balance()
+        print 'opskins balance: ' + str(balance)
+    except:
+        print "cant get opskins balance"
+    if ms.send_email_bool:
+        ms.start_smtp(ms.email_username, ms.email_password)
+        print 'Connected to email server'
+    else:
+        print "Not going to send emails"
+    socketio.run(app, debug=False, host=ms.server_ip, port=80)
