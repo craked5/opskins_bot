@@ -18,7 +18,11 @@ The following stuff in the config file needs to be configured:
 - send_email: true or false if you want to send an email after it buys something! (ONLY GMAIL!!!!!!!!!!!!!!!!!!)
 - discount_percentage: the percentage of discount that the item has to have in order to be bought! Ex: 30 or 24.5
 - min_item_price: minimum price that the item has to have in order to be bought! Ex: 3 or 5.67
+- server_ip: the local ip that is going to run the bot server, normally 0.0.0.0
+- using_redis: if you want to use redis as storage! I highly encourage this!
 
-Now that you configured the bot, run the items_history.py script to get a list of all the suggested sell prices that will be used in the bot! (IT MAY TAKE A WHILE!!)
+Now that you configured the bot, run the opskins_prices.py script to get a list of all the suggested sell prices that will be used in the bot! It will take some time since you are getting a lot of items from the Opskins api and they limit the time between requests. I recommend you to run this script once a day!
 
 After thats finished, you run server.py and then run the extension. You will see feedback on the server and after a while it will start looking for things to buy!
+
+If you have any questions just post it on the issues and i'll try to awswer it as fast as i can!
