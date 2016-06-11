@@ -7,7 +7,6 @@ Flask
 Flask-SocketIO
 PyExecJS
 gevent
-gevent-websocket
 greenlet
 numpy
 cfscrape
