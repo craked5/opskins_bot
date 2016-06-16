@@ -255,16 +255,19 @@ class mainLogic:
         
         start_time = timeit.default_timer()
         if opsres.status_code is 200:
+            start_time_test2 = timeit.default_timer()
             soup = BeautifulSoup(opsres.content,'lxml')
             items_bad = soup.find_all('div', {'class':'featured-item col-xs-12 col-sm-6 col-md-4 col-lg-3 center-block app_730_2'})
+            print len(items_bad)
             if len(items_bad) == 0:
                 print "For some reason i cound't scrape any items, maybe opskins is down.... "
                 return -2
+            elapsed_test2 = timeit.default_timer() - start_time_test2
+            print 'elapsed time getting the soup: ' + str(elapsed_test2)
 
             list_ids_temp = []
 
             for item in items_bad:
-                start_time_test = timeit.default_timer()
 
                 json_good = False
                 item_url = str(item.find('a',{'class':'market-name market-link'})['href'])
@@ -273,11 +276,7 @@ class mainLogic:
                 item_condition_temp = ' (' + str(item.find('small',{'class':'text-muted'}).text) + ')'
                 item_name = item_name_no_condition+item_condition_temp
 
-                elapsed_test = timeit.default_timer() - start_time_test
-                print 'time elapsed at parsing html: ' + str(elapsed_test)
-
                 #tenho que fazer decode('utf-8') do item_name_no_condition para verificar se este existe no dict da historia dos items
-                start_time_test = timeit.default_timer()
                 if item_OpId not in self.last_opsid_from_site:
                     if item_name.decode('utf-8') in self.item_price_history_sorted:
                         try:
@@ -310,9 +309,6 @@ class mainLogic:
                         else:
                             print self.item_price_history_sorted[item_name.decode('utf-8')]
                             print "not json good"
-
-                elapsed_test = timeit.default_timer() - start_time_test
-                print 'time elapsed checking if item is good: ' + str(elapsed_test)
 
                 list_ids_temp.append(item_OpId)
 
