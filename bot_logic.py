@@ -264,6 +264,7 @@ class mainLogic:
             list_ids_temp = []
 
             for item in items_bad:
+                start_time_test = timeit.default_timer()
 
                 json_good = False
                 item_url = str(item.find('a',{'class':'market-name market-link'})['href'])
@@ -272,8 +273,11 @@ class mainLogic:
                 item_condition_temp = ' (' + str(item.find('small',{'class':'text-muted'}).text) + ')'
                 item_name = item_name_no_condition+item_condition_temp
 
-                #tenho que fazer decode('utf-8') do item_name_no_condition para verificar se este existe no dict da historia dos items
+                elapsed_test = timeit.default_timer() - start_time_test
+                print 'time elapsed at parsing html: ' + str(elapsed_test)
 
+                #tenho que fazer decode('utf-8') do item_name_no_condition para verificar se este existe no dict da historia dos items
+                start_time_test = timeit.default_timer()
                 if item_OpId not in self.last_opsid_from_site:
                     if item_name.decode('utf-8') in self.item_price_history_sorted:
                         try:
@@ -307,6 +311,9 @@ class mainLogic:
                             print self.item_price_history_sorted[item_name.decode('utf-8')]
                             print "not json good"
 
+                elapsed_test = timeit.default_timer() - start_time_test
+                print 'time elapsed checking if item is good: ' + str(elapsed_test)
+
                 list_ids_temp.append(item_OpId)
 
             self.last_opsid_from_site = list_ids_temp
@@ -330,8 +337,8 @@ class mainLogic:
                     return 0
             else:
                 print "Didn't get any new items to potencially buy!"
-                elapsed = timeit.default_timer() - start_time
-                print 'time after the request: ' + str(elapsed) + '\n\n'
+                elapsed_total = timeit.default_timer() - start_time
+                print 'time after the request: ' + str(elapsed_total) + '\n\n'
                 return 0
 
     #structures an email to be sent with the items found to be good to buy!
@@ -371,6 +378,9 @@ class mainLogic:
                 temp_list = history.keys()
                 temp_list = sorted(temp_list, key=lambda x: datetime.datetime.strptime(x, '%Y-%m-%d'), reverse=True)
 
+                print item_prices[key_item]['name'].encode('utf-8')
+                print str(item_prices[key_item]['price'])
+
                 od = OrderedDict()
                 for i in temp_list:
                     if i in history.keys():
@@ -386,7 +396,10 @@ class mainLogic:
                         temp_count += item_prices[key_item]['history'][dates]['count']
                         counter += 1
                 if temp_count >= 6:
+                    print 'temp price feito pela sort func: ', str(temp_price)
                     item_prices[key_item]['price'] = str(int(temp_price))
+                    print 'preco que vai ser usado pelo bot: ', str(item_prices[key_item]['price'])
+                    print '\n'
                 else:
                     if "price" in item_prices[key_item]:
                         pass
