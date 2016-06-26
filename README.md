@@ -26,3 +26,5 @@ Now that you configured the bot, run the opskins_prices.py script to get a list 
 After thats finished, you run server.py and then run the extension. You will see feedback on the server and after a while it will start looking for things to buy!
 
 If you have any questions just post it on the issues and i'll try to awswer it as fast as i can!
+
+I did not profit from this, this was merely an exercise!
