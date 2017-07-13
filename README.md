@@ -1,6 +1,6 @@
 # OpSkins Bot!
 
-################################# THIS BOT IS NOW DEPRECATED. IT WILL NOT WORK ANYMORE ############################################
+################### THIS BOT IS NOW DEPRECATED. IT WILL NOT WORK ANYMORE ###############################
 
 Bot to buy things on Opskins skins based on the suggested price of the item (calculated by the bot, not the 7 days average).
 Only works on Unix systems right now!
